@@ -1,0 +1,438 @@
+{
+  "name": "My workflow Wanderlust",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "82c263b8-4101-4bc8-9e7f-b23d1cc13650",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -1392,
+        -640
+      ],
+      "id": "241bd027-3cf6-4497-a62a-07aab4214837",
+      "name": "Webhook",
+      "webhookId": "82c263b8-4101-4bc8-9e7f-b23d1cc13650",
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-3-flash-preview",
+          "mode": "list",
+          "cachedResultName": "models/gemini-3-flash-preview"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "={{ $json.body[0].body[0].Mensaje_Original }}"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {
+          "maxOutputTokens": 500,
+          "topP": 0.7
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        -1168,
+        -640
+      ],
+      "id": "fc25b4a1-026a-460e-a836-d1904ed5e3cc",
+      "name": "Message a model",
+      "retryOnFail": true,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "G4Djbbq351f7gqCs",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "authentication": "airtableOAuth2Api",
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appzYh6hkDc3hQDGE",
+          "mode": "list",
+          "cachedResultName": "Wanderluxe_DB.",
+          "cachedResultUrl": "https://airtable.com/appzYh6hkDc3hQDGE"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblhpReoXekrKbF6M",
+          "mode": "list",
+          "cachedResultName": "Leads_Wanderluxe",
+          "cachedResultUrl": "https://airtable.com/appzYh6hkDc3hQDGE/tblhpReoXekrKbF6M"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Estado_Proceso": "Procesado por IA",
+            "Fecha_Solicitud": "2026-09-02T00:00:00",
+            "Nombre_Pasajero": "=Elena Rostova",
+            "Destino_Interes": "Europa Exclusiva",
+            "Mensaje_Original": "=Hola Wanderluxe, busco un itinerario VIP de 12 días por París, los Alpes suizos y la Costa Amalfitana con vuelos privados y hoteles boutique de lujo para 2 personas en octubre.",
+            "Correo electrónico": "=elena.rostova@vip-travel.com"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Nombre_Pasajero",
+              "displayName": "Nombre_Pasajero",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Mensaje_Original",
+              "displayName": "Mensaje_Original",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Fecha_Solicitud",
+              "displayName": "Fecha_Solicitud",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Correo electrónico",
+              "displayName": "Correo electrónico",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Teléfono",
+              "displayName": "Teléfono",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Destino_Interes",
+              "displayName": "Destino_Interes",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Europa Exclusiva",
+                  "value": "Europa Exclusiva"
+                },
+                {
+                  "name": "Islas Privadas",
+                  "value": "Islas Privadas"
+                },
+                {
+                  "name": "Destinos Polares",
+                  "value": "Destinos Polares"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Clasificacion_IA",
+              "displayName": "Clasificacion_IA",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "VIP",
+                  "value": "VIP"
+                },
+                {
+                  "name": "Alta Gama",
+                  "value": "Alta Gama"
+                },
+                {
+                  "name": "Estandar",
+                  "value": "Estandar"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Estado_Proceso",
+              "displayName": "Estado_Proceso",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Pendiente",
+                  "value": "Pendiente"
+                },
+                {
+                  "name": "Procesado por IA",
+                  "value": "Procesado por IA"
+                },
+                {
+                  "name": "Aprobado",
+                  "value": "Aprobado"
+                },
+                {
+                  "name": "Error de sistema",
+                  "value": "Error de sistema"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Log_Errores",
+              "displayName": "Log_Errores",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Historial_Interacciones",
+              "displayName": "Historial_Interacciones",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        -864,
+        -640
+      ],
+      "id": "be86a4d9-d98d-4e6b-bf1f-79a54b37646f",
+      "name": "Create a record",
+      "retryOnFail": true,
+      "credentials": {
+        "airtableOAuth2Api": {
+          "id": "E9v9TgnVPb9ixnSy",
+          "name": "Airtable account"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -688,
+        -640
+      ],
+      "id": "85734f2b-d04d-4ef8-aac5-8f5e95cdbc09",
+      "name": "Wait",
+      "webhookId": "44c92881-bf69-4a2e-a8ec-1dd1c044a618"
+    },
+    {
+      "parameters": {
+        "sendTo": "elena.rostova@vip-travel.com",
+        "subject": "Tu Itinerario VIP Wanderluxe - Europa Exclusiva",
+        "message": "Hola Elena, tu itinerario VIP para Europa Exclusiva ha sido aprobado y procesado con éxito. ¡Buen viaje!",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        -464,
+        -640
+      ],
+      "id": "196db431-9c05-456c-8516-70ce5ba9b204",
+      "name": "Send a message",
+      "webhookId": "dfe0549c-936f-4089-a6d9-506893cc6b1a",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "hN4PTYx0aF8L0boT",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "solautomatiza.app.n8n.cloud",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
+            "content-length": "1491",
+            "accept": "*/*",
+            "accept-encoding": "gzip, br",
+            "cdn-loop": "cloudflare; loops=1; subreqs=1",
+            "cf-connecting-ip": "64.227.21.251",
+            "cf-ew-via": "15",
+            "cf-ipcountry": "US",
+            "cf-ray": "a35ee61faf0a438a-EWR",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "cf-worker": "n8n.cloud",
+            "content-type": "application/json",
+            "x-forwarded-for": "64.227.21.251, 162.158.154.122",
+            "x-forwarded-host": "solautomatiza.app.n8n.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "traefik-prod-users-gwc-53-7744dc94c8-vw8wv",
+            "x-is-trusted": "yes",
+            "x-real-ip": "64.227.21.251"
+          },
+          "params": {},
+          "query": {},
+          "body": [
+            {
+              "headers": {
+                "host": "solautomatiza.app.n8n.cloud",
+                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
+                "content-length": "344",
+                "accept": "*/*",
+                "accept-encoding": "gzip, br",
+                "cdn-loop": "cloudflare; loops=1; subreqs=1",
+                "cf-connecting-ip": "64.227.21.251",
+                "cf-ew-via": "15",
+                "cf-ipcountry": "US",
+                "cf-ray": "a359b5545ad86d8a-EWR",
+                "cf-visitor": "{\"scheme\":\"https\"}",
+                "cf-worker": "n8n.cloud",
+                "content-type": "application/json",
+                "x-forwarded-for": "64.227.21.251, 172.70.115.16",
+                "x-forwarded-host": "solautomatiza.app.n8n.cloud",
+                "x-forwarded-port": "443",
+                "x-forwarded-proto": "https",
+                "x-forwarded-server": "traefik-prod-users-gwc-53-7744dc94c8-c4v8l",
+                "x-is-trusted": "yes",
+                "x-real-ip": "64.227.21.251"
+              },
+              "params": {},
+              "query": {},
+              "body": [
+                {
+                  "Nombre_Pasajero": "Elena Rostova",
+                  "Email": "elena.rostova@vip-travel.com",
+                  "Destino_Interes": "Europa Exclusiva",
+                  "Mensaje_Original": "Hola Wanderluxe, busco un itinerario VIP de 12 días por París, los Alpes suizos y la Costa Amalfitana con vuelos privados y hoteles boutique de lujo para 2 personas en octubre."
+                }
+              ],
+              "webhookUrl": "https://solautomatiza.app.n8n.cloud/webhook-test/82c263b8-4101-4bc8-9e7f-b23d1cc13650",
+              "executionMode": "test"
+            }
+          ],
+          "webhookUrl": "https://solautomatiza.app.n8n.cloud/webhook-test/82c263b8-4101-4bc8-9e7f-b23d1cc13650",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Create a record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a record": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "1ac1c0f1-6199-439f-86e3-3b4341a4bff6",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "336ace6eac14503ff51b13df11f92ef7579195129379112e20e7dee086f02117"
+  },
+  "nodeGroups": [],
+  "id": "oJfWpqkYHInRQF1Z",
+  "tags": []
+}
